@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+
+
+<meta charset="utf-8">
+
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+
+<style>
+#bottom {
+width: 1200px;
+margin-top: 30px;
+margin-left: 20px;
+margin-right: auto;
+font: 10px 'Open Sans';
+}
+#header-title {
+width: 1200px;
+margin-top: 40px;
+margin-bottom: 10px;
+margin-left: 0px;
+margin-right: auto;
+font: 18px 'Open Sans';
+font-weight: bold;
+}
+#container {
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  }
+#container2 {
+	width: 1000px
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+}
+#report {
+	width: 1200px
+	margin-left: 400px;
+	margin-right: 80px;
+	margin-top: 40px;
+	font: 12px 'Open Sans';
+	-webkit-column-count: 3; /* Chrome, Safari, Opera */
+     -moz-column-count: 3; /* Firefox */
+     column-count: 3;
+
+}
+#controls {
+  font: 10px 'Open Sans';
+  margin-top: 10px;
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.download a {
+  color: #000;
+  text-decoration: none;
+}
+.download a:hover {
+  color: #1E78E2;
+}
+.button:hover {
+  opacity: 0.5;
+}
+.value-labels {
+  font: 10px 'Open Sans', sans-serif;
+  shape-rendering: crispEdges;
+  text-shadow: none;
+  cursor: move; 
+}
+svg {
+  font: 10px 'Open Sans', sans-serif; 
+}
+.background path {
+  fill: none;
+  stroke: #D8D8D8;
+  stroke-width: 1.2;
+  /*shape-rendering: crispEdges;*/
+}
+.foreground path {
+  fill: none;
+  stroke-width: 2;
+  /*shape-rendering: crispEdges;*/
+}
+.brush .extent {
+  fill-opacity: .3;
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+.axis line,
+.axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.axis text {
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+  cursor: move;
+}
+</style>
+
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+
+<script>
+function format_data(el) {
+   var t = d3.select(el).text();
+   var data = d3.csv.parse(t);
+   return data;
+}
+</script>
+
+
+<div id="header-title">
+<span style="padding-left: 110px;">10341 West Julian Southwest Facade Shading Toolkit</span>
+</div>
+
+<p>
+</p>
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"><head>
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:Office_x0020_of_x0020_Origin msdt:dt="string">London</mso:Office_x0020_of_x0020_Origin>
+<mso:Contact_x0020_Person msdt:dt="string">46</mso:Contact_x0020_Person>
+<mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Contact_x0020_Person msdt:dt="string">James Sheldon</mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Contact_x0020_Person>
+<mso:Practice msdt:dt="string">Data Visualisation</mso:Practice>
+<mso:Revision_x0020_Number msdt:dt="string">1.00000000000000</mso:Revision_x0020_Number>
+<mso:Local_x0020_Server_x0020_Location msdt:dt="string">N/A</mso:Local_x0020_Server_x0020_Location>
+<mso:Vetted_x003f_ msdt:dt="string">Peer-reviewed</mso:Vetted_x003f_>
+<mso:Notes0 msdt:dt="string">This is setup currently to allow the maximum value of two outputs to be fixed. This could be edited to allow for additional outputs.</mso:Notes0>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head><body>
+<div id ="container"></div>
+<div id="controls"></div>
+<div id="report">
+<span style="float:left"> 
+<u><b>NOTE:</u></b> This study is based on a single zone box model, which represents a single perimeter space in the building. Results chart the access to useful daylight, the anticipated deployment of interior blinds by occupants, and the peak solar heat gain. This information can be used to find exterior shade configurations that balance these key performance parameters.<br><br><b><u>PARAMETERS TESTED</U></b><br><b>SHADE ROTATION</b>; Vertical (0), Steep Angle(30), Shallow Angle (60), Horizontal (90)<br><b>SHADE DEPTH</b>; 6 inch, 12 inch, 18 inch, 24 inch <br><b>SPACING</b>; 1 ft, 2 ft, 3 ft <br><b>SHGC</b>; 0.3 constant assumed <br><br><b><u>OBJECTIVES</u></b><br><b>MAXIMIZE USEFUL DAYLIGHT</b>; Percent of perimeter zone (25' deep) floorplate receiving useful daylight between 200 - 3000 lux for more than 50% of annual occupied hours (8am-8pm)<br><b>MAXIMIZE HOURS WITH BLINDS OPEN </b>; Percent of annual occupied hours (8am-8pm) when interior blinds can remain open, providing views and daylight <br><b>MINIMIZE ZONE SOLAR HEAT GAIN</b> Anticipated zone solar heat gain (btu/hr/sf), normalized by perimeter floor area, occurring during the summer cooling period (April-October)
+
+</span>
+</div>
+
+
+<div id="bottom">
+  <span style="float: right; display: inline-block; padding-right: 100px;"><img src="https://data.openasset.com/397453f2/836dc5f75604dfa4b541f338ea904bee/M_161220_N275_png/M_161220_N275_powerpoint.jpg" height="100" width="350"/></span>
+  <span style="padding:left:110px;">LAST UPDATED: August 7, 2020</span>
+</div>
+
+
+
+</div>
+
+<pre id="csvdata" style="display:none;">
+Rotation (deg),Depth (in),Spacing (ft),Useful Daylight (% Floorplate),Blinds Open (% Occupied Hours),Zone Solar Heat Gain (Btu/hour/sf)
+0,12,1,30.153846,69,20.192608
+0,12,2,41.107692,65,24.329437
+0,12,3,46.8,65,25.531611
+0,18,1,25.538462,75,18.11189
+0,18,2,36.4,68,22.377497
+0,18,3,43.476923,67,24.062368
+0,24,1,19.138462,76,17.3544
+0,24,2,32,69,22.049185
+0,24,3,39.569231,68,23.806038
+0,6,1,38.769231,65,22.431602
+0,6,2,49.261538,65,24.731751
+0,6,3,53.169231,66,25.822557
+30,12,1,32.430769,71,17.14998
+30,12,2,42.369231,65,21.960347
+30,12,3,47.784615,65,23.631787
+30,18,1,27.261538,76,14.039612
+30,18,2,37.261538,66,20.194071
+30,18,3,43.446154,65,22.415128
+30,24,1,20.4,78,10.94288
+30,24,2,34.123077,69,18.50054
+30,24,3,39.969231,66,21.216845
+30,6,1,40.553846,66,20.310268
+30,6,2,49.969231,65,23.732563
+30,6,3,52.338462,65,24.843354
+45,12,1,34.461538,72,16.435417
+45,12,2,45.230769,66,21.32754
+45,12,3,49.753846,65,24.427316
+45,18,1,26.738462,76,12.783275
+45,18,2,41.076923,69,19.619524
+45,18,3,44.4,65,22.136003
+45,24,1,20.923077,79,9.248997
+45,24,2,38.676923,73,17.316185
+45,24,3,42.523077,66,21.622905
+45,6,1,41.169231,65,20.091276
+45,6,2,51.015385,65,23.481559
+45,6,3,53.230769,65,24.800574
+60,12,1,35.476923,74,15.930337
+60,12,2,46.861538,66,21.38659
+60,12,3,50.584615,65,23.213641
+60,18,1,29.569231,79,11.984819
+60,18,2,42.307692,69,19.187129
+60,18,3,47.907692,66,21.790192
+60,24,1,21.630769,82,8.22081
+60,24,2,41.6,75,17.052891
+60,24,3,44.738462,68,20.310678
+60,6,1,43.261538,67,19.871845
+60,6,2,50.923077,65,23.41812
+60,6,3,53.230769,65,24.596183
+90,12,1,38.430769,76,15.22224
+90,12,2,54.184615,71,20.374058
+90,12,3,54.707692,66,23.915915
+90,18,1,21.876923,85,12.654817
+90,18,2,52.738462,74,19.069995
+90,18,3,54.676923,69,23.835739
+90,24,2,49.446154,78,17.742436
+90,24,3,54.553846,72,21.491346
+90,6,1,49.261538,70,18.897821
+90,6,2,55.446154,67,22.676051
+90,6,3,54.215385,65,26.177966
+
+
+
+</pre>
+
+<script>
+/*
+ For the full example file, visit http://bl.ocks.org/jasondavies/1341281
+*/ 
+data = format_data("#csvdata");
+var margin = {top: 75, right: 80, bottom: 40, left: 40},
+    width = 1200 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+var x = d3.scale.ordinal().rangePoints([0, width], 1),
+    y = {},
+    dragging = {},
+    ord_scale = {},
+    color = {};
+var swatches = ["#238443", "#78c679", "#d9f0a3"].reverse();
+var line = d3.svg.line().interpolate("monotone").tension(1),
+    axis = d3.svg.axis().orient("right"),
+    background,
+    foreground;
+var svg = d3.select("#container").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+
+function draw(data) {
+
+  x.domain(dimensions = d3.keys(data[0]).filter(function(d) {
+      
+    switch (d) {
+           
+      default:
+        ord_scale[d] = true
+        var uniqueVals = d3.extent(data, function(p) { return +p[d]; });
+        color[d] = d3.scale.linear().domain(uniqueVals).range([swatches[0], swatches[2]]);
+        return (y[d] = d3.scale.linear()
+          .domain(uniqueVals)
+          .range([height, 0]));
+        break;
+		
+	  case 'BCA 2016':
+		ord_scale[d] = true
+        var uniqueVals = d3.extent(data, function(p) { return +p[d]; });
+        color[d] = d3.scale.linear().domain(uniqueVals).range([swatches[0], swatches[2]]);
+        return (y[d] = d3.scale.linear()
+          .domain([0,2.5])
+          .range([height, 0]));		
+		break;
+		
+	  case 'BCA 2019':
+		ord_scale[d] = true
+        var uniqueVals = d3.extent(data, function(p) { return +p[d]; });
+        color[d] = d3.scale.linear().domain(uniqueVals).range([swatches[0], swatches[2]]);
+        return (y[d] = d3.scale.linear()
+          .domain([0,2.5])
+          .range([height, 0]));		
+		break;			
+    }}));
+  // Add grey background lines for context.
+  background = svg.append("g")
+      .attr("class", "background")
+    .selectAll("path")
+      .data(data)
+    .enter().append("path")
+      .attr("d", path)
+      .attr("stroke-opacity", 1);  
+  // Add blue foreground lines for focus. REPLACE "SHGC"
+  foreground = svg.append("g")
+      .attr("class", "foreground")
+    .selectAll("path")
+      .data(data)
+    .enter().append("path")
+      .attr("d", path)
+      .style("stroke", function(d) { return color["Rotation (deg)"](d["Rotation (deg)"]); });
+
+  console.log(dimensions)
+  // Add a group element for each dimension.
+  var g = svg.selectAll(".dimension")
+      .data(dimensions)
+    .enter().append("g")
+      .attr("class", "dimension")
+      .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
+      .call(d3.behavior.drag()
+        .origin(function(d) { return {x: x(d)}; })
+        .on("dragstart", function(d) {
+          dragging[d] = x(d);
+          background.attr("visibility", "hidden");
+        })
+        .on("drag", function(d) {
+          dragging[d] = Math.min(width, Math.max(0, d3.event.x));
+          foreground.attr("d", path);
+          dimensions.sort(function(a, b) { return position(a) - position(b); });
+          x.domain(dimensions);
+          g.attr("transform", function(d) { return "translate(" + position(d) + ")"; })
+        })
+        .on("dragend", function(d) {
+          delete dragging[d];
+          transition(d3.select(this)).attr("transform", "translate(" + x(d) + ")");
+          transition(foreground).attr("d", path);
+          background
+              .attr("d", path)
+            .transition()
+              .delay(500)
+              .duration(0)
+              .attr("visibility", null);
+        }));
+  // Add an axis and title.
+  g.append("g")
+      .attr("class", "axis")
+      .each(function(d) { d3.select(this).call(axis.scale(y[d])); })
+    .append("text")
+      .style("text-anchor", "middle")
+      .attr("y", -9)
+      .text(function(d) { return d; });
+ 
+
+ // Add and store a brush for each axis.
+    g.append("g")
+    .attr("class", "brush")
+    .each(function(d) {
+      d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d])
+        .on("brushstart", brushstart).on("brush", brush));
+    })
+  .selectAll("rect")
+    .attr("x", -6)
+    .attr("width", 12);
+  g.append("g")
+    .attr("class", "button").attr("transform", ("translate(0," + (height + 25) + ")"))
+    .append("circle").attr("r", 5).style("stroke", "#000").attr("cursor", "pointer")
+    .style("fill", function(d) { return d === null ? "#1E78E2": "#f2f2f2"; })
+    .on("click", function(d) { buttonClick(this, d); })
+    .on("mouseover", function(){return colortooltip.style("visibility", "visible");})
+    .on("mousemove", function(){return colortooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+15)+"px");})
+    .on("mouseout", function(){return colortooltip.style("visibility", "hidden");});
+ 
+}
+draw(data);
+var control = d3.select("#controls");
+control.append("span").attr("class", "download").style({"float": "right", "padding-right": "100px"})
+  .append("a").attr("href", "javascript:(function () { var e = document.createElement('script'); if (window.location.protocol === 'https:') { e.setAttribute('src', 'https://rawgit.com/NYTimes/svg-crowbar/gh-pages/svg-crowbar.js'); } else { e.setAttribute('src', 'http://nytimes.github.com/svg-crowbar/svg-crowbar.js'); } e.setAttribute('class', 'svg-crowbar'); document.body.appendChild(e); })();")
+  //.html("DOWNLOAD SVG");
+  //.on("click", download);
+
+function buttonClick(el, d) {
+  foreground.style("stroke", function(x) {
+    return color[d](x[d]);
+  })
+  d3.selectAll(".button circle").style("fill", "#f2f2f2");
+  d3.select(el).style("fill", "#1E78E2");
+}
+function position(d) {
+  var v = dragging[d];
+  return v == null ? x(d) : v;
+}
+function transition(g) {
+  return g.transition().duration(500);
+}
+// Returns the path for a given data point.
+function path(d) {
+  return line(dimensions.map(function(p) { return [position(p), y[p](d[p])]; }));
+}
+function brushstart() {
+  d3.event.sourceEvent.stopPropagation();
+}
+// Handles a brush event, toggling the display of foreground lines.
+function brush() {
+  var actives = dimensions.filter(function(p) { return !y[p].brush.empty(); }),
+      extents = actives.map(function(p) { return y[p].brush.extent(); });
+  foreground.style("display", function(d) {
+    return actives.every(function(p, i) {
+      return extents[i][0] <= d[p] && d[p] <= extents[i][1];
+    }) ? null : "none";
+  });
+}
+function download() {
+  alert("check");
+}
+</script>
+
+
+
+</body>
+</html>
